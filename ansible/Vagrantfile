@@ -1,0 +1,5 @@
+Vagrant.confugure('2') do |config|
+    config.vm.box = 'ubuntu/trusty64'
+    config.vm.network :private_network, ip: '192.168.0.2'
+    config.vm.provision :shell, file: 'provision.sh'
+end
