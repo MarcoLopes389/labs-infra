@@ -1,0 +1,4 @@
+- hosts: kubernetes
+  become: yes
+  roles:
+  - kubernetes

@@ -1,0 +1,9 @@
+[kubernetes]
+10.0.0.3
+[sonar]
+10.0.0.4
+[jenkins]
+10.0.0.2
+
+[all:vars]
+ansible_user = root
