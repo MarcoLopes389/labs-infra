@@ -1,0 +1,11 @@
+cd sonar
+vagrant destroy
+cd ..
+cd kubernetes
+vagrant destroy
+cd ..
+cd jenkins
+vagrant destroy
+cd ..
+cd ansible
+vagrant destroy

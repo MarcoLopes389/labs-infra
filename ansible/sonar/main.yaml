@@ -1,4 +1,4 @@
 - hosts: sonar
-  become: yes
+  become: true
   roles:
   - sonar

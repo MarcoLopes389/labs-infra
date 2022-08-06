@@ -1,8 +1,3 @@
-vagrant plugin install vagrant-vbguest
-sudo bash -c 'cat <<EOF > /etc/vbox/networks.conf
-* 10.0.0.0/8 10.0.0.0/16
-* 2001::/64
-EOF'
 cd sonar
 vagrant up
 cd ..
@@ -14,7 +9,9 @@ vagrant up
 cd ..
 cd ansible
 vagrant up
-vagrant upload hosts
-vagrant upload roles
+vagrant upload jenkins
+vagrant upload sonar
+vagrant upload kubernetes
 vagrant upload ansible.cfg
-# vagrant ssh -c "ansible-playbook -i /ansible/inventory /ansible/playbook.yml"
+vagrant upload inventory
+vagrant ssh -c "ansible-playbook -i inventory jenkins/main.yaml"

@@ -1,4 +1,25 @@
 - hosts: jenkins
-  become: yes
-  roles:
-  - jenkins
+  become: true
+  tasks:
+  - name: "Installing curl"
+    apt:
+      pkg:
+      - curl
+      update_cache: yes
+      state: present
+
+  - name: "Installation of java"
+    package:
+      name: openjdk-7-jdk
+      state: present
+
+  - name: "Getting jenkins key"
+    shell: "curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null"
+  
+  - name: "Echo jenkins repo"
+    shell: 'echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null'
+  
+  - name: "Installation of jenkins"
+    package:
+      name: jenkins=2.10
+      state: present
