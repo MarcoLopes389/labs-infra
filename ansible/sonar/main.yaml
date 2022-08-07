@@ -7,6 +7,16 @@
       - wget
       - zip
       state: present
+  
+  - name: "Create group sonar"
+    group:
+      name: sonar
+      state: present
+  
+  - name: "Create user sonar"
+    user:
+      name: sonar
+      group: sonar
 
   - name: "Installation of java"
     package:
@@ -14,7 +24,7 @@
       state: present
 
   - name: "Installation of postgres"
-    shell: "wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -"
+    shell: "wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -"
 
   - shell: "echo deb http://apt.postgresql.org/pub/repos/apt/ lsb_release -cs-pgdg main >> /etc/apt/sources.list.d/pgdg.list"
 
@@ -36,8 +46,20 @@
       src: sonarqube-9.5.0.56709.zip
       dest: .
       remote_src: yes
+  
+  - file:
+      path: /opt/sonarqube
+      state: absent
 
-  - shell: "sudo mv sonarqube-9.5.0.56709 /opt/sonarqube"
+  - shell: "mv sonarqube-9.5.0.56709 /opt/sonarqube"
+
+  - name: "Chown to sonar user"
+    file:
+      path: /opt/sonarqube
+      state: directory
+      owner: sonar
+      group: sonar
+      recurse: yes
 
   - name: "Apply Page Template"
     template:

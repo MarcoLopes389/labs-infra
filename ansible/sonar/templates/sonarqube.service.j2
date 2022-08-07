@@ -3,8 +3,10 @@ Description=Sonarqube Service
 After=syslog.target network.target
 [Service]
 Type=fork
-ExecStart=/opt/sonarqube/bin/linx-x86-64/sonar.sh start
-ExecStop=/opt/sonarqube/bin/linx-x86-64/sonar.sh stop
+User=sonar
+Group=sonar
+ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
 Restart=always
 [Install]
 WantedBy=multi-user.target
