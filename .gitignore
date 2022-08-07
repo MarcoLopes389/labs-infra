@@ -1,1 +1,3 @@
 **/.vagrant
+*.log
+ssh_key.txt

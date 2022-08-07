@@ -1,5 +1,13 @@
 - hosts: kubernetes
-  become: yes
-  become_user: root
-  roles:
-  - kubernetes
+  become: true
+  tasks:
+  - name: "Installing curl"
+    package:
+      name: curl
+      state: present
+
+  - name: "Installation of kind"
+    shell: "curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64 && chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind"
+
+  - name: "Create kind cluster"
+    shell: "kind create cluster --name kind"

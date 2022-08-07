@@ -1,4 +1,49 @@
 - hosts: sonar
   become: true
-  roles:
-  - sonar
+  tasks:
+  - name: "Installing wget"
+    apt:
+      pkg:
+      - wget
+      update_cache: yes
+      state: present
+
+  - name: "Installation of java"
+    package:
+      name: openjdk-11-jdk
+      state: present
+
+  - name: "Installation of postgres"
+    shell: "wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -"
+
+  - shell: "echo deb http://apt.postgresql.org/pub/repos/apt/ lsb_release -cs-pgdg main >> /etc/apt/sources.list.d/pgdg.list"
+
+  - package:
+      name:
+      - postgresql
+      - postgresql-contrib
+      state: present
+
+  - service:
+      name: postgresql
+      state: started
+      enabled: yes
+    
+  - name: "Installation of sonarqube"
+    shell: "wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.5.0.56709.zip"
+    package:
+      name: zip
+      state: present
+    
+  - shell: "unzip sonarqube-9.5.0.56709.zip"
+  - shell: "sudo mv sonarqube-9.5.0.56709 /opt/sonarqube"
+
+  - name: "Apply Page Template"
+    template:
+      src: templates/sonarqube.service.j2
+      dest: /etc/systemd/system/sonarqube.service
+
+  - service:
+      name: sonarqube
+      state: started
+      enabled: yes
