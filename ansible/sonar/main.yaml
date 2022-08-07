@@ -2,10 +2,10 @@
   become: true
   tasks:
   - name: "Installing wget"
-    apt:
-      pkg:
+    package:
+      name:
       - wget
-      update_cache: yes
+      - zip
       state: present
 
   - name: "Installation of java"
@@ -31,11 +31,12 @@
     
   - name: "Installation of sonarqube"
     shell: "wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.5.0.56709.zip"
-    package:
-      name: zip
-      state: present
-    
-  - shell: "unzip sonarqube-9.5.0.56709.zip"
+  
+  - unarchive:
+      src: sonarqube-9.5.0.56709.zip
+      dest: .
+      remote_src: yes
+
   - shell: "sudo mv sonarqube-9.5.0.56709 /opt/sonarqube"
 
   - name: "Apply Page Template"

@@ -6,6 +6,7 @@ vagrant up
 vagrant upload jenkins
 vagrant upload sonar
 vagrant upload kubernetes
+vagrant upload templates
 vagrant upload ansible.cfg
 vagrant upload inventory
 
@@ -33,3 +34,5 @@ cd ..
 cd ansible
 # Run ansible playbook
 vagrant ssh -c "ansible-playbook -i inventory jenkins/main.yaml"
+vagrant ssh -c "ansible-playbook -i inventory sonar/main.yaml"
+vagrant ssh -c "ansible-playbook -i inventory kubernetes/main.yaml"

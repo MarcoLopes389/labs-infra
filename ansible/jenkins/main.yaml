@@ -5,6 +5,8 @@
     apt:
       pkg:
       - curl
+      - zip
+      - wget
       update_cache: yes
       state: present
 
@@ -23,3 +25,19 @@
     package:
       name: jenkins
       state: present
+
+  - name: "Removing previous downloads"
+    shell: "rm sonar-scanner-cli-4.7.0.2747-linux.zip && rm -rf sonar-scanner-cli-4.7.0.2747-linux"
+    
+  - name: "Downloading of sonar-scanner"
+    shell: "wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip"
+
+  - name: "Unpackage sonar-scanner"
+    unarchive:
+      src: sonar-scanner-cli-4.7.0.2747-linux.zip
+      dest: .
+      remote_src: yes
+
+  - shell: "mv /home/vagrant/sonar-scanner-cli-4.7.0.2747-linux /opt/sonar-scanner"
+
+  - shell: "echo 'export PATH=$PATH:/opt/sonar-scanner/bin' | tee -a /etc/profile"
